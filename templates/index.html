@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GET-MY-LOOK · by neta hornik</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pink: #ee9dbe;
+      --pink-hover: #e587ae;
+      --pink-dark: #8a4a68;
+      --pink-soft: #fbe4ee;
+      --bg: #fffafc;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Heebo", Arial, sans-serif;
+      background: var(--bg);
+      color: #222;
+      direction: rtl;
+    }
+
+    /* ---------- header ---------- */
+    .hero {
+      background: linear-gradient(135deg, #fff2f8 0%, #fddcec 45%, #f9c9de 100%);
+      padding: 44px 24px 38px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "✿";
+      position: absolute;
+      font-size: 120px;
+      color: rgba(255, 255, 255, 0.35);
+      top: -20px;
+    }
+
+    .hero::before { right: 6%; transform: rotate(-15deg); }
+    .hero::after  { left: 6%;  top: auto; bottom: -30px; transform: rotate(20deg); }
+
+    .brand {
+      font-family: "Poppins", "Heebo", sans-serif;
+      font-weight: 800;
+      font-size: clamp(34px, 7vw, 64px);
+      letter-spacing: 3px;
+      color: var(--pink-dark);
+      margin: 0;
+      direction: ltr;
+    }
+
+    .brand span {
+      color: var(--pink);
+    }
+
+    .byline {
+      font-family: "Poppins", "Heebo", sans-serif;
+      font-weight: 300;
+      font-size: clamp(14px, 2.5vw, 20px);
+      letter-spacing: 5px;
+      color: #a06c85;
+      margin: 8px 0 0;
+      direction: ltr;
+      text-transform: lowercase;
+    }
+
+    .hero .tagline {
+      margin: 16px 0 0;
+      color: #93627b;
+      font-size: 16px;
+    }
+
+    /* ---------- layout: sidebar + content ---------- */
+    .layout {
+      display: flex;
+      max-width: 1300px;
+      margin: 0 auto;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      border: 2px solid transparent;
+      background: white;
+      color: var(--pink-dark);
+      padding: 14px 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(138, 74, 104, 0.1);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: right;
+      transition: 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--pink);
+      transform: translateY(-2px);
+    }
+
+    .nav-btn.active {
+      background: var(--pink);
+      color: white;
+    }
+
+    .nav-btn .icon {
+      font-size: 20px;
+    }
+
+    .content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .section-title {
+      color: var(--pink-dark);
+      font-size: 24px;
+      font-weight: 800;
+      margin: 4px 0;
+    }
+
+    .section-sub {
+      margin: 0 0 18px;
+      color: #5b4651;
+    }
+
+    /* ---------- products page ---------- */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 16px 0 24px;
+    }
+
+    .category-btn {
+      border: 2px solid transparent;
+      background: white;
+      color: var(--pink-dark);
+      padding: 11px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    .category-btn:hover {
+      border-color: var(--pink);
+      transform: translateY(-2px);
+    }
+
+    .category-btn.active {
+      background: var(--pink);
+      color: white;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 22px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(138, 74, 104, 0.1);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 22px rgba(138, 74, 104, 0.16);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      background: #faf2f6;
+    }
+
+    .product-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .product-content h3 {
+      margin: 0;
+      color: var(--pink-dark);
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .category-tag {
+      align-self: flex-start;
+      font-size: 12px;
+      font-weight: 600;
+      color: #c96f97;
+      background: #fdeef5;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .buy-btn {
+      display: inline-block;
+      margin-top: auto;
+      padding: 11px 14px;
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      text-decoration: none;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .buy-btn:hover {
+      background: #f6cfe1;
+    }
+
+    .empty-state {
+      margin-top: 20px;
+      padding: 18px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      color: #555;
+    }
+
+    /* ---------- looks page ---------- */
+    .looks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 22px;
+      align-items: start;
+    }
+
+    .look-card {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(138, 74, 104, 0.12);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .look-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 22px rgba(138, 74, 104, 0.18);
+    }
+
+    .look-card > img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .look-info {
+      padding: 12px 14px;
+    }
+
+    .look-title {
+      font-weight: 800;
+      color: var(--pink-dark);
+    }
+
+    .look-hint {
+      font-size: 12px;
+      color: #a2708a;
+      margin-top: 2px;
+    }
+
+    .id-card {
+      display: none;
+      padding: 0 12px 12px;
+      font-size: 14px;
+    }
+
+    .id-card.open {
+      display: block;
+    }
+
+    .id-card-title {
+      font-weight: 800;
+      color: var(--pink-dark);
+      margin: 4px 0 8px;
+      border-top: 1px dashed #f0c3d8;
+      padding-top: 10px;
+      font-size: 13px;
+    }
+
+    .id-card-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fdf1f6;
+      border-radius: 10px;
+      padding: 8px;
+      margin-bottom: 8px;
+    }
+
+    .id-card-item img {
+      width: 46px;
+      height: 46px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #f5f5f5;
+      flex-shrink: 0;
+    }
+
+    .id-card-item .item-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .id-card-item .item-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: #4a2036;
+    }
+
+    .id-card-item .item-category {
+      font-size: 12px;
+      color: #8a5c74;
+    }
+
+    .id-card-item a {
+      font-size: 12px;
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    /* ---------- mobile ---------- */
+    @media (max-width: 760px) {
+      .layout {
+        flex-direction: column;
+        padding: 16px;
+        gap: 16px;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        width: 100%;
+        flex-direction: row;
+        background: var(--bg);
+        padding: 10px 0;
+      }
+
+      .nav-btn {
+        justify-content: center;
+        padding: 12px 10px;
+        font-size: 15px;
+      }
+
+      .product-card img {
+        height: 200px;
+      }
+
+      .look-card > img {
+        height: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1 class="brand">GET<span>-</span>MY<span>-</span>LOOK</h1>
+    <p class="byline">by neta hornik</p>
+    <p class="tagline">כל המוצרים שאני עובדת איתם – במקום אחד, עם קישור ישיר לקנייה 💄</p>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" aria-label="ניווט ראשי">
+      <button class="nav-btn active" data-page="products"><span class="icon">💄</span> מוצרים מומלצים</button>
+      <button class="nav-btn" data-page="looks"><span class="icon">👰</span> לוקים של כלות</button>
+    </nav>
+
+    <div class="content">
+      <!-- products page -->
+      <section class="page active" id="page-products">
+        <h2 class="section-title">המוצרים המומלצים שלי</h2>
+        <p class="section-sub">בחרי קטגוריה כדי לסנן, ולחצי על לקנייה כדי לעבור לחנות.</p>
+
+        <div class="categories" id="categoryButtons"></div>
+        <div class="products-grid" id="productGrid"></div>
+        <div class="empty-state" id="emptyState" style="display:none;"></div>
+      </section>
+
+      <!-- looks page -->
+      <section class="page" id="page-looks">
+        <h2 class="section-title">לוקים של כלות ✨</h2>
+        <p class="section-sub">לחצי על תמונה כדי לפתוח את תעודת הזהות של הלוק – כל המוצרים שהשתמשתי בהם.</p>
+
+        <div class="looks-grid" id="lookList"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "";
+
+    let looks = [];
+    let products = [];
+    let activeCategory = "";
+
+    async function fetchJSON(path) {
+      const res = await fetch(API_BASE + path);
+      if (!res.ok) throw new Error(`Failed to fetch ${path}`);
+      return res.json();
+    }
+
+    function escapeHtml(value) {
+      const div = document.createElement("div");
+      div.textContent = value ?? "";
+      return div.innerHTML;
+    }
+
+    /* ---------- page navigation ---------- */
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+        document.getElementById(`page-${btn.dataset.page}`).classList.add("active");
+      };
+    });
+
+    /* ---------- products ---------- */
+    function renderCategories() {
+      const container = document.getElementById("categoryButtons");
+      container.innerHTML = "";
+
+      const categories = ["הכל", ...new Set(products.map(p => p.category).filter(Boolean))];
+
+      categories.forEach(category => {
+        const btn = document.createElement("button");
+        btn.className = "category-btn" + (category === activeCategory ? " active" : "");
+        btn.textContent = category;
+        btn.onclick = () => {
+          activeCategory = category;
+          document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderProducts();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById("productGrid");
+      const emptyState = document.getElementById("emptyState");
+      grid.innerHTML = "";
+
+      const filtered = activeCategory === "הכל"
+        ? products
+        : products.filter(p => p.category === activeCategory);
+
+      if (filtered.length === 0) {
+        emptyState.style.display = "block";
+        emptyState.textContent = "אין מוצרים בקטגוריה הזו כרגע.";
+        return;
+      }
+
+      emptyState.style.display = "none";
+
+      filtered.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" loading="lazy">
+          <div class="product-content">
+            ${product.category ? `<span class="category-tag">${escapeHtml(product.category)}</span>` : ""}
+            <h3>${escapeHtml(product.name)}</h3>
+            <a class="buy-btn" href="${escapeHtml(product.link || "#")}" target="_blank" rel="noopener noreferrer">לקנייה</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    /* ---------- looks (bride photos + ID cards) ---------- */
+    function renderLooks() {
+      const container = document.getElementById("lookList");
+      container.innerHTML = "";
+
+      looks.forEach((look, index) => {
+        const card = document.createElement("div");
+        card.className = "look-card";
+
+        const items = look.products.map(p => `
+          <div class="id-card-item">
+            ${p.image ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy">` : ""}
+            <div class="item-text">
+              <div class="item-name">${escapeHtml(p.name)}</div>
+              ${p.category ? `<div class="item-category">${escapeHtml(p.category)}</div>` : ""}
+            </div>
+            ${p.link ? `<a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer">לקנייה</a>` : ""}
+          </div>
+        `).join("");
+
+        card.innerHTML = `
+          <img src="${escapeHtml(look.photo)}" alt="${escapeHtml(look.description) || `לוק ${index + 1}`}" loading="lazy">
+          <div class="look-info">
+            <div class="look-title">${escapeHtml(look.description) || `לוק ${index + 1}`}</div>
+            <div class="look-hint">לחצי לפרטי המוצרים ▾</div>
+          </div>
+          <div class="id-card" id="id-card-${index}">
+            <div class="id-card-title">מוצרים בלוק הזה</div>
+            ${items || "<div>לא צוינו מוצרים.</div>"}
+          </div>
+        `;
+
+        card.addEventListener("click", (event) => {
+          if (event.target.closest("a")) return;
+          const idCard = document.getElementById(`id-card-${index}`);
+          const wasOpen = idCard.classList.contains("open");
+          document.querySelectorAll(".id-card").forEach(el => el.classList.remove("open"));
+          if (!wasOpen) idCard.classList.add("open");
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    async function init() {
+      try {
+        const [looksData, productsData] = await Promise.all([
+          fetchJSON("/artists"),
+          fetchJSON("/products")
+        ]);
+
+        looks = looksData;
+        products = productsData;
+        activeCategory = "הכל";
+
+        renderCategories();
+        renderProducts();
+        renderLooks();
+      } catch (err) {
+        const emptyState = document.getElementById("emptyState");
+        emptyState.style.display = "block";
+        emptyState.textContent = "אירעה שגיאה בטעינת הנתונים. בדקי שהגיליונות משותפים לצפייה ציבורית.";
+        console.error(err);
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

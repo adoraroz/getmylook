@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.idea/
+.claude/
+.DS_Store
+service_account.json
+.venv/
+venv/
