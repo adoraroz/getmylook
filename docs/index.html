@@ -427,37 +427,61 @@
     /* ---------- cookie consent ---------- */
     .cookie-banner {
       position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      bottom: 20px;
+      right: 20px;
+      left: 20px;
+      margin-inline-start: auto;
+      max-width: 400px;
       z-index: 100;
       background: white;
-      border-top: 1px solid var(--line);
-      box-shadow: 0 -6px 24px rgba(20, 20, 20, 0.08);
-      padding: 14px 20px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      box-shadow: 0 16px 44px rgba(20, 20, 20, 0.16);
+      padding: 20px 22px 18px;
       display: none;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px 18px;
-      text-align: center;
+      opacity: 0;
+      transform: translateY(14px);
     }
 
     .cookie-banner.show {
-      display: flex;
+      display: block;
+      animation: cookie-in 0.45s ease 0.6s forwards;
+    }
+
+    @keyframes cookie-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cookie-banner h3 {
+      font-family: "Frank Ruhl Libre", serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 6px;
     }
 
     .cookie-banner p {
-      margin: 0;
-      font-size: 14px;
-      color: #3d3a36;
+      margin: 0 0 14px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--muted);
+      font-family: "Heebo", Arial, sans-serif;
+    }
+
+    .cookie-banner .cookie-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
 
     .cookie-banner button {
       border: 1.5px solid var(--ink);
       background: var(--ink);
       color: white;
-      padding: 9px 26px;
+      padding: 9px 30px;
       border-radius: 999px;
       cursor: pointer;
       font-family: "Heebo", Arial, sans-serif;
@@ -468,6 +492,7 @@
 
     .cookie-banner button:hover {
       background: #000;
+      transform: translateY(-1px);
     }
 
     /* ---------- mobile ---------- */
@@ -540,8 +565,11 @@
   </div>
 
   <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="שימוש בעוגיות">
-    <p>האתר משתמש בעוגיות ובשירותי צד שלישי (כגון Google) לצורך הצגת תמונות ותכנים ולשיפור חוויית הגלישה.</p>
-    <button id="cookieAccept">אישור</button>
+    <h3>פרטיות ועוגיות</h3>
+    <p>האתר משתמש בעוגיות ובשירותי צד שלישי (כגון Google) לצורך הצגת תמונות ותכנים ולשיפור חוויית הגלישה. המשך השימוש באתר מהווה הסכמה לכך.</p>
+    <div class="cookie-actions">
+      <button id="cookieAccept">אישור</button>
+    </div>
   </div>
 
   <script>
