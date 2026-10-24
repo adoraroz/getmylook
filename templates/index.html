@@ -127,7 +127,9 @@
       justify-content: center;
       width: 100%;
       border: 1.5px solid var(--ink);
-      background: var(--card);
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       color: var(--ink);
       padding: 14px 16px;
       border-radius: 999px;
@@ -140,12 +142,12 @@
     }
 
     .nav-btn:hover {
-      background: var(--soft);
+      background: rgba(243, 241, 238, 0.8);
       transform: translateY(-2px);
     }
 
     .nav-btn.active {
-      background: var(--ink);
+      background: rgba(20, 20, 20, 0.88);
       color: white;
     }
 
