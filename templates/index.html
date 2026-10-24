@@ -422,6 +422,52 @@
       color: white;
     }
 
+    /* ---------- cookie consent ---------- */
+    .cookie-banner {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 100;
+      background: white;
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -6px 24px rgba(20, 20, 20, 0.08);
+      padding: 14px 20px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px 18px;
+      text-align: center;
+    }
+
+    .cookie-banner.show {
+      display: flex;
+    }
+
+    .cookie-banner p {
+      margin: 0;
+      font-size: 14px;
+      color: #3d3a36;
+    }
+
+    .cookie-banner button {
+      border: 1.5px solid var(--ink);
+      background: var(--ink);
+      color: white;
+      padding: 9px 26px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: "Heebo", Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      transition: 0.2s ease;
+    }
+
+    .cookie-banner button:hover {
+      background: #000;
+    }
+
     /* ---------- mobile ---------- */
     @media (max-width: 760px) {
       .hero {
@@ -491,7 +537,24 @@
     </div>
   </div>
 
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="שימוש בעוגיות">
+    <p>האתר משתמש בעוגיות ובשירותי צד שלישי (כגון Google) לצורך הצגת תמונות ותכנים ולשיפור חוויית הגלישה.</p>
+    <button id="cookieAccept">אישור</button>
+  </div>
+
   <script>
+    /* ---------- cookie consent ---------- */
+    (function () {
+      let consented = false;
+      try { consented = localStorage.getItem("cookieConsent") === "yes"; } catch (e) {}
+      const banner = document.getElementById("cookieBanner");
+      if (!consented) banner.classList.add("show");
+      document.getElementById("cookieAccept").onclick = () => {
+        try { localStorage.setItem("cookieConsent", "yes"); } catch (e) {}
+        banner.classList.remove("show");
+      };
+    })();
+
     const API_BASE = "";
 
     let looks = [];

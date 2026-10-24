@@ -422,6 +422,52 @@
       color: white;
     }
 
+    /* ---------- cookie consent ---------- */
+    .cookie-banner {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 100;
+      background: white;
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -6px 24px rgba(20, 20, 20, 0.08);
+      padding: 14px 20px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px 18px;
+      text-align: center;
+    }
+
+    .cookie-banner.show {
+      display: flex;
+    }
+
+    .cookie-banner p {
+      margin: 0;
+      font-size: 14px;
+      color: #3d3a36;
+    }
+
+    .cookie-banner button {
+      border: 1.5px solid var(--ink);
+      background: var(--ink);
+      color: white;
+      padding: 9px 26px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: "Heebo", Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      transition: 0.2s ease;
+    }
+
+    .cookie-banner button:hover {
+      background: #000;
+    }
+
     /* ---------- mobile ---------- */
     @media (max-width: 760px) {
       .hero {
@@ -491,7 +537,24 @@
     </div>
   </div>
 
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="שימוש בעוגיות">
+    <p>האתר משתמש בעוגיות ובשירותי צד שלישי (כגון Google) לצורך הצגת תמונות ותכנים ולשיפור חוויית הגלישה.</p>
+    <button id="cookieAccept">אישור</button>
+  </div>
+
   <script>
+    /* ---------- cookie consent ---------- */
+    (function () {
+      let consented = false;
+      try { consented = localStorage.getItem("cookieConsent") === "yes"; } catch (e) {}
+      const banner = document.getElementById("cookieBanner");
+      if (!consented) banner.classList.add("show");
+      document.getElementById("cookieAccept").onclick = () => {
+        try { localStorage.setItem("cookieConsent", "yes"); } catch (e) {}
+        banner.classList.remove("show");
+      };
+    })();
+
     /* ---------- data sources: the two public Google Sheets ---------- */
     const BRIDES_SHEET_CSV = "https://docs.google.com/spreadsheets/d/14KWYBgvA3kP2CKw5MQxCsDA-QQY0oQoJdz289ESo7p8/gviz/tq?tqx=out:csv";
     const PRODUCT_SHEET_CSV = "https://docs.google.com/spreadsheets/d/1FzqeJiA7VfT3vKdmQLLejRcOaMOE9K9U0o3m8Wa-s78/gviz/tq?tqx=out:csv";
@@ -545,11 +608,14 @@
       return "";
     }
 
-    /* turn a Google Drive share link into a URL that works inside <img> */
+    /* turn a Google Drive share link into a URL that works inside <img>.
+       Served through the wsrv.nl caching proxy because Drive throttles
+       pages that request many thumbnails at once. */
     function driveImageUrl(value, width = 1000) {
       const match = (value || "").match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=)([\w-]+)/);
-      if (match) return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w${width}`;
-      return value || "";
+      if (!match) return value || "";
+      const original = `https://lh3.googleusercontent.com/d/${match[1]}=w${width}`;
+      return `https://wsrv.nl/?url=${encodeURIComponent(original)}&w=${width}`;
     }
 
     async function fetchSheet(url) {

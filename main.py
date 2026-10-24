@@ -2,6 +2,7 @@ import csv
 import io
 import re
 import time
+from urllib.parse import quote
 
 import requests
 from fastapi import FastAPI, HTTPException, Request
@@ -35,11 +36,16 @@ DRIVE_FILE_RE = re.compile(r"drive\.google\.com/(?:file/d/|open\?id=|uc\?id=)([\
 
 
 def drive_image_url(value: str, width: int = 1000) -> str:
-    """Turn a Google Drive share link into a URL that works inside <img>."""
+    """Turn a Google Drive share link into a URL that works inside <img>.
+
+    Served through the wsrv.nl caching proxy because Drive throttles
+    pages that request many thumbnails at once.
+    """
     value = (value or "").strip()
     match = DRIVE_FILE_RE.search(value)
     if match:
-        return f"https://drive.google.com/thumbnail?id={match.group(1)}&sz=w{width}"
+        original = quote(f"https://lh3.googleusercontent.com/d/{match.group(1)}=w{width}", safe="")
+        return f"https://wsrv.nl/?url={original}&w={width}"
     return value
 
 
