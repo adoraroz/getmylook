@@ -23,7 +23,7 @@
 
     body {
       margin: 0;
-      font-family: "Heebo", Arial, sans-serif;
+      font-family: "Frank Ruhl Libre", "Heebo", Arial, serif;
       background:
         radial-gradient(1200px 600px at 85% -100px, #f1ede8 0%, transparent 60%),
         radial-gradient(1000px 500px at 0% 100%, #eeebe6 0%, transparent 55%),
@@ -133,7 +133,7 @@
       padding: 14px 16px;
       border-radius: 999px;
       cursor: pointer;
-      font-family: inherit;
+      font-family: "Heebo", Arial, sans-serif;
       font-size: 16px;
       font-weight: 500;
       transition: 0.2s ease;
@@ -196,7 +196,7 @@
       padding: 10px 22px;
       border-radius: 999px;
       cursor: pointer;
-      font-family: inherit;
+      font-family: "Heebo", Arial, sans-serif;
       font-size: 15px;
       font-weight: 500;
       transition: 0.2s ease;
@@ -235,9 +235,11 @@
 
     .product-card img {
       width: 100%;
-      height: 230px;
-      object-fit: cover;
-      background: var(--soft);
+      aspect-ratio: 1 / 1;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      background: white;
     }
 
     .product-content {
@@ -278,6 +280,7 @@
       text-decoration: none;
       border-radius: 999px;
       text-align: center;
+      font-family: "Heebo", Arial, sans-serif;
       font-weight: 500;
       transition: 0.2s ease;
     }
@@ -320,9 +323,11 @@
 
     .look-card > img {
       width: 100%;
-      height: 300px;
-      object-fit: cover;
+      aspect-ratio: 3 / 4;
+      height: auto;
+      object-fit: contain;
       display: block;
+      background: white;
     }
 
     .look-info {
@@ -407,6 +412,7 @@
       padding: 6px 12px;
       border-radius: 999px;
       white-space: nowrap;
+      font-family: "Heebo", Arial, sans-serif;
       font-weight: 500;
       transition: 0.2s ease;
     }
@@ -447,14 +453,6 @@
         border-top: none;
         padding-top: 0;
       }
-
-      .product-card img {
-        height: 200px;
-      }
-
-      .look-card > img {
-        height: 260px;
-      }
     }
   </style>
 </head>
@@ -476,7 +474,7 @@
       <!-- products page -->
       <section class="page active" id="page-products">
         <h2 class="section-title">המוצרים המומלצים שלי</h2>
-        <p class="section-sub">בחרי קטגוריה כדי לסנן, ולחצי על לקנייה כדי לעבור לחנות.</p>
+        <p class="section-sub">בחרי קטגוריה כדי לסנן, ולחצי על לקנייה כדי לעבור לחנות</p>
 
         <div class="categories" id="categoryButtons"></div>
         <div class="products-grid" id="productGrid"></div>
