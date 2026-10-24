@@ -6,9 +6,14 @@ import time
 import requests
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
+
+# logo + backdrop live in docs/assets so the static (GitHub Pages) site and
+# this dev server share the same files
+app.mount("/assets", StaticFiles(directory="docs/assets"), name="assets")
 
 app.add_middleware(
     CORSMiddleware,

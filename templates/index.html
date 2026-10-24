@@ -32,34 +32,46 @@
       direction: rtl;
     }
 
+    /* soft diagonal studio-light beams, like the reference photo */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,0) 26%, rgba(255,255,255,0.65) 36%, rgba(255,255,255,0) 50%),
+        linear-gradient(115deg, rgba(228,222,214,0) 55%, rgba(228,222,214,0.35) 66%, rgba(228,222,214,0) 78%);
+    }
+
+    /* marble & brushes photo anchored to the bottom of the viewport */
+    body::after {
+      content: "";
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: min(34vh, 360px);
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to bottom, rgba(250,249,247,1) 0%, rgba(250,249,247,0.8) 45%, rgba(250,249,247,0.45) 100%),
+        url("assets/backdrop.jpg");
+      background-size: cover;
+      background-position: center bottom;
+    }
+
     /* ---------- header ---------- */
     .hero {
       padding: 52px 24px 36px;
       text-align: center;
     }
 
-    .monogram {
-      font-family: "Playfair Display", serif;
-      font-weight: 500;
-      font-size: clamp(64px, 12vw, 110px);
-      line-height: 0.9;
-      letter-spacing: -0.14em;
-      color: var(--ink);
-      margin: 0 0 10px;
-      direction: ltr;
-      padding-left: 0.14em; /* optically recenter after the negative tracking */
-    }
-
-    .wordmark {
-      font-family: "Heebo", sans-serif;
-      font-weight: 400;
-      font-size: clamp(12px, 2.2vw, 16px);
-      letter-spacing: 0.45em;
-      margin: 0;
-      color: var(--ink);
-      direction: ltr;
-      text-transform: uppercase;
-      padding-left: 0.45em;
+    .logo {
+      display: block;
+      width: min(420px, 88vw);
+      height: auto;
+      margin: -30px auto -40px; /* the original file carries transparent padding */
     }
 
     .hero-rule {
@@ -158,18 +170,21 @@
       font-size: clamp(28px, 5vw, 40px);
       font-weight: 700;
       margin: 0 0 6px;
+      text-align: center;
     }
 
     .section-sub {
       margin: 0 0 20px;
       color: var(--muted);
       font-size: 15px;
+      text-align: center;
     }
 
     /* ---------- products page ---------- */
     .categories {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 10px;
       margin: 18px 0 28px;
     }
@@ -445,11 +460,10 @@
 </head>
 <body>
   <header class="hero">
-    <h1 class="monogram">NH</h1>
-    <p class="wordmark">Neta Hornik Makeup</p>
+    <h1 style="margin:0;"><img class="logo" src="assets/logo.webp" alt="Neta Hornik Bridal Makeup"></h1>
     <hr class="hero-rule">
     <p class="brand">GET MY LOOK</p>
-    <p class="tagline">כל המוצרים שאני עובדת איתם – במקום אחד, עם קישור ישיר לקנייה.</p>
+    <p class="tagline">כל המוצרים שאני עובדת איתם במקום אחד</p>
   </header>
 
   <div class="layout">
