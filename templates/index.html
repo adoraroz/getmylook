@@ -3,81 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GET-MY-LOOK · by neta hornik</title>
+  <title>GET MY LOOK · Neta Hornik Makeup</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
     }
 
     :root {
-      --pink: #ee9dbe;
-      --pink-hover: #e587ae;
-      --pink-dark: #8a4a68;
-      --pink-soft: #fbe4ee;
-      --bg: #fffafc;
+      --ink: #141414;
+      --paper: #faf9f7;
+      --card: #ffffff;
+      --line: #dcd8d2;
+      --muted: #6f6a64;
+      --soft: #f3f1ee;
     }
 
     body {
       margin: 0;
       font-family: "Heebo", Arial, sans-serif;
-      background: var(--bg);
-      color: #222;
+      background:
+        radial-gradient(1200px 600px at 85% -100px, #f1ede8 0%, transparent 60%),
+        radial-gradient(1000px 500px at 0% 100%, #eeebe6 0%, transparent 55%),
+        var(--paper);
+      color: var(--ink);
       direction: rtl;
     }
 
     /* ---------- header ---------- */
     .hero {
-      background: linear-gradient(135deg, #fff2f8 0%, #fddcec 45%, #f9c9de 100%);
-      padding: 44px 24px 38px;
+      padding: 52px 24px 36px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
 
-    .hero::before,
-    .hero::after {
-      content: "✿";
-      position: absolute;
-      font-size: 120px;
-      color: rgba(255, 255, 255, 0.35);
-      top: -20px;
+    .monogram {
+      font-family: "Playfair Display", serif;
+      font-weight: 500;
+      font-size: clamp(64px, 12vw, 110px);
+      line-height: 0.9;
+      letter-spacing: -0.14em;
+      color: var(--ink);
+      margin: 0 0 10px;
+      direction: ltr;
+      padding-left: 0.14em; /* optically recenter after the negative tracking */
     }
 
-    .hero::before { right: 6%; transform: rotate(-15deg); }
-    .hero::after  { left: 6%;  top: auto; bottom: -30px; transform: rotate(20deg); }
+    .wordmark {
+      font-family: "Heebo", sans-serif;
+      font-weight: 400;
+      font-size: clamp(12px, 2.2vw, 16px);
+      letter-spacing: 0.45em;
+      margin: 0;
+      color: var(--ink);
+      direction: ltr;
+      text-transform: uppercase;
+      padding-left: 0.45em;
+    }
+
+    .hero-rule {
+      width: 46px;
+      border: none;
+      border-top: 1px solid var(--ink);
+      margin: 26px auto;
+    }
 
     .brand {
-      font-family: "Poppins", "Heebo", sans-serif;
-      font-weight: 800;
-      font-size: clamp(34px, 7vw, 64px);
-      letter-spacing: 3px;
-      color: var(--pink-dark);
+      font-family: "Playfair Display", serif;
+      font-weight: 400;
+      font-size: clamp(42px, 9vw, 84px);
+      letter-spacing: 0.04em;
+      color: var(--ink);
       margin: 0;
       direction: ltr;
     }
 
-    .brand span {
-      color: var(--pink);
-    }
-
-    .byline {
-      font-family: "Poppins", "Heebo", sans-serif;
-      font-weight: 300;
-      font-size: clamp(14px, 2.5vw, 20px);
-      letter-spacing: 5px;
-      color: #a06c85;
-      margin: 8px 0 0;
-      direction: ltr;
-      text-transform: lowercase;
-    }
-
     .hero .tagline {
-      margin: 16px 0 0;
-      color: #93627b;
-      font-size: 16px;
+      font-family: "Frank Ruhl Libre", serif;
+      margin: 18px auto 0;
+      color: #3d3a36;
+      font-size: clamp(16px, 3vw, 20px);
+      max-width: 560px;
+      line-height: 1.5;
     }
 
     /* ---------- layout: sidebar + content ---------- */
@@ -86,56 +94,54 @@
       max-width: 1300px;
       margin: 0 auto;
       align-items: flex-start;
-      gap: 24px;
-      padding: 24px;
+      gap: 28px;
+      padding: 10px 24px 70px;
     }
 
     .sidebar {
-      width: 220px;
+      width: 230px;
       flex-shrink: 0;
       position: sticky;
       top: 20px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
     }
 
     .nav-btn {
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
       width: 100%;
-      border: 2px solid transparent;
-      background: white;
-      color: var(--pink-dark);
+      border: 1.5px solid var(--ink);
+      background: var(--card);
+      color: var(--ink);
       padding: 14px 16px;
-      border-radius: 14px;
+      border-radius: 999px;
       cursor: pointer;
-      box-shadow: 0 2px 10px rgba(138, 74, 104, 0.1);
       font-family: inherit;
       font-size: 16px;
-      font-weight: 600;
-      text-align: right;
+      font-weight: 500;
       transition: 0.2s ease;
     }
 
     .nav-btn:hover {
-      border-color: var(--pink);
+      background: var(--soft);
       transform: translateY(-2px);
     }
 
     .nav-btn.active {
-      background: var(--pink);
+      background: var(--ink);
       color: white;
-    }
-
-    .nav-btn .icon {
-      font-size: 20px;
     }
 
     .content {
       flex: 1;
       min-width: 0;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
     }
 
     .page {
@@ -147,46 +153,47 @@
     }
 
     .section-title {
-      color: var(--pink-dark);
-      font-size: 24px;
-      font-weight: 800;
-      margin: 4px 0;
+      font-family: "Frank Ruhl Libre", serif;
+      color: var(--ink);
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 700;
+      margin: 0 0 6px;
     }
 
     .section-sub {
-      margin: 0 0 18px;
-      color: #5b4651;
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 15px;
     }
 
     /* ---------- products page ---------- */
     .categories {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin: 16px 0 24px;
+      gap: 10px;
+      margin: 18px 0 28px;
     }
 
     .category-btn {
-      border: 2px solid transparent;
-      background: white;
-      color: var(--pink-dark);
-      padding: 11px 20px;
+      border: 1.5px solid var(--ink);
+      background: var(--card);
+      color: var(--ink);
+      padding: 10px 22px;
       border-radius: 999px;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       font-family: inherit;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 500;
       transition: 0.2s ease;
     }
 
     .category-btn:hover {
-      border-color: var(--pink);
+      background: var(--soft);
       transform: translateY(-2px);
     }
 
     .category-btn.active {
-      background: var(--pink);
+      background: var(--ink);
       color: white;
     }
 
@@ -197,10 +204,10 @@
     }
 
     .product-card {
-      background: white;
-      border-radius: 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 3px 12px rgba(138, 74, 104, 0.1);
       display: flex;
       flex-direction: column;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -208,14 +215,14 @@
 
     .product-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 10px 22px rgba(138, 74, 104, 0.16);
+      box-shadow: 0 14px 30px rgba(20, 20, 20, 0.1);
     }
 
     .product-card img {
       width: 100%;
       height: 230px;
       object-fit: cover;
-      background: #faf2f6;
+      background: var(--soft);
     }
 
     .product-content {
@@ -224,49 +231,54 @@
       flex-direction: column;
       gap: 8px;
       flex: 1;
+      border-top: 1px solid var(--line);
     }
 
     .product-content h3 {
       margin: 0;
-      color: var(--pink-dark);
-      font-size: 16px;
+      font-family: "Frank Ruhl Libre", serif;
+      color: var(--ink);
+      font-size: 17px;
+      font-weight: 500;
       line-height: 1.35;
     }
 
     .category-tag {
       align-self: flex-start;
       font-size: 12px;
-      font-weight: 600;
-      color: #c96f97;
-      background: #fdeef5;
-      padding: 4px 10px;
-      border-radius: 999px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 3px;
     }
 
     .buy-btn {
       display: inline-block;
       margin-top: auto;
       padding: 11px 14px;
-      background: var(--pink-soft);
-      color: var(--pink-dark);
+      background: transparent;
+      border: 1.5px solid var(--ink);
+      color: var(--ink);
       text-decoration: none;
-      border-radius: 10px;
+      border-radius: 999px;
       text-align: center;
-      font-weight: 600;
-      transition: background 0.2s ease;
+      font-weight: 500;
+      transition: 0.2s ease;
     }
 
     .buy-btn:hover {
-      background: #f6cfe1;
+      background: var(--ink);
+      color: white;
     }
 
     .empty-state {
       margin-top: 20px;
       padding: 18px;
-      background: white;
-      border-radius: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      color: #555;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--muted);
     }
 
     /* ---------- looks page ---------- */
@@ -278,17 +290,17 @@
     }
 
     .look-card {
-      background: white;
-      border-radius: 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 3px 12px rgba(138, 74, 104, 0.12);
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .look-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 10px 22px rgba(138, 74, 104, 0.18);
+      box-shadow: 0 14px 30px rgba(20, 20, 20, 0.12);
     }
 
     .look-card > img {
@@ -299,23 +311,26 @@
     }
 
     .look-info {
-      padding: 12px 14px;
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
     }
 
     .look-title {
-      font-weight: 800;
-      color: var(--pink-dark);
+      font-family: "Frank Ruhl Libre", serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--ink);
     }
 
     .look-hint {
       font-size: 12px;
-      color: #a2708a;
-      margin-top: 2px;
+      color: var(--muted);
+      margin-top: 3px;
     }
 
     .id-card {
       display: none;
-      padding: 0 12px 12px;
+      padding: 0 14px 14px;
       font-size: 14px;
     }
 
@@ -324,30 +339,31 @@
     }
 
     .id-card-title {
-      font-weight: 800;
-      color: var(--pink-dark);
-      margin: 4px 0 8px;
-      border-top: 1px dashed #f0c3d8;
-      padding-top: 10px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 4px 0 10px;
+      border-top: 1px dashed var(--line);
+      padding-top: 12px;
       font-size: 13px;
+      letter-spacing: 0.04em;
     }
 
     .id-card-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: #fdf1f6;
-      border-radius: 10px;
-      padding: 8px;
+      background: var(--soft);
+      border-radius: 4px;
+      padding: 9px;
       margin-bottom: 8px;
     }
 
     .id-card-item img {
       width: 46px;
       height: 46px;
-      border-radius: 8px;
+      border-radius: 4px;
       object-fit: cover;
-      background: #f5f5f5;
+      background: white;
       flex-shrink: 0;
     }
 
@@ -357,33 +373,44 @@
     }
 
     .id-card-item .item-name {
-      font-weight: 600;
+      font-weight: 500;
       font-size: 13px;
-      color: #4a2036;
+      color: var(--ink);
     }
 
     .id-card-item .item-category {
       font-size: 12px;
-      color: #8a5c74;
+      color: var(--muted);
     }
 
     .id-card-item a {
       font-size: 12px;
-      background: var(--pink-soft);
-      color: var(--pink-dark);
+      background: transparent;
+      border: 1px solid var(--ink);
+      color: var(--ink);
       text-decoration: none;
-      padding: 6px 10px;
-      border-radius: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
       white-space: nowrap;
-      font-weight: 600;
+      font-weight: 500;
+      transition: 0.2s ease;
+    }
+
+    .id-card-item a:hover {
+      background: var(--ink);
+      color: white;
     }
 
     /* ---------- mobile ---------- */
     @media (max-width: 760px) {
+      .hero {
+        padding-top: 40px;
+      }
+
       .layout {
         flex-direction: column;
-        padding: 16px;
-        gap: 16px;
+        padding: 10px 16px 50px;
+        gap: 18px;
       }
 
       .sidebar {
@@ -392,14 +419,18 @@
         z-index: 50;
         width: 100%;
         flex-direction: row;
-        background: var(--bg);
-        padding: 10px 0;
+        background: var(--paper);
+        padding: 12px 0;
       }
 
       .nav-btn {
-        justify-content: center;
         padding: 12px 10px;
         font-size: 15px;
+      }
+
+      .content {
+        border-top: none;
+        padding-top: 0;
       }
 
       .product-card img {
@@ -414,15 +445,17 @@
 </head>
 <body>
   <header class="hero">
-    <h1 class="brand">GET<span>-</span>MY<span>-</span>LOOK</h1>
-    <p class="byline">by neta hornik</p>
-    <p class="tagline">כל המוצרים שאני עובדת איתם – במקום אחד, עם קישור ישיר לקנייה 💄</p>
+    <h1 class="monogram">NH</h1>
+    <p class="wordmark">Neta Hornik Makeup</p>
+    <hr class="hero-rule">
+    <p class="brand">GET MY LOOK</p>
+    <p class="tagline">כל המוצרים שאני עובדת איתם – במקום אחד, עם קישור ישיר לקנייה.</p>
   </header>
 
   <div class="layout">
     <nav class="sidebar" aria-label="ניווט ראשי">
-      <button class="nav-btn active" data-page="products"><span class="icon">💄</span> מוצרים מומלצים</button>
-      <button class="nav-btn" data-page="looks"><span class="icon">👰</span> לוקים של כלות</button>
+      <button class="nav-btn active" data-page="products">מוצרים מומלצים</button>
+      <button class="nav-btn" data-page="looks">לוקים של כלות</button>
     </nav>
 
     <div class="content">
@@ -438,7 +471,7 @@
 
       <!-- looks page -->
       <section class="page" id="page-looks">
-        <h2 class="section-title">לוקים של כלות ✨</h2>
+        <h2 class="section-title">לוקים של כלות</h2>
         <p class="section-sub">לחצי על תמונה כדי לפתוח את תעודת הזהות של הלוק – כל המוצרים שהשתמשתי בהם.</p>
 
         <div class="looks-grid" id="lookList"></div>

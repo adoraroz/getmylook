@@ -84,10 +84,27 @@ def products():
     return result
 
 
+def _normalize(name: str) -> str:
+    """Lowercase and collapse punctuation, so 'Brand - Product' still matches 'Product'."""
+    return re.sub(r"[^\w]+", " ", (name or "").casefold()).strip()
+
+
 @app.get("/artists")
 def artists():
     rows = read_csv_from_url(BRIDES_SHEET_CSV)
-    product_index = {p["name"].casefold(): p for p in products()}
+    all_products = products()
+    product_index = {_normalize(p["name"]): p for p in all_products}
+
+    def find_product(name: str):
+        n = _normalize(name)
+        if n in product_index:
+            return product_index[n]
+        for p in all_products:
+            pn = _normalize(p["name"])
+            if n in pn or pn in n:
+                return p
+        return None
+
     result = []
     for row in rows:
         photo = cell(row, "תמונה", "photo", "image")
@@ -100,7 +117,7 @@ def artists():
         ]
         used = []
         for n in product_names:
-            matched = product_index.get(n.casefold())
+            matched = find_product(n)
             used.append(matched or {"name": n, "category": "", "image": "", "link": ""})
         result.append({
             "photo": drive_image_url(photo),
